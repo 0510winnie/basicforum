@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\User;
+use Auth;
 
-class UserController extends Controller
+class SessionsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -24,7 +24,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('users.create');
+        return view('sessions.create');
     }
 
     /**
@@ -35,31 +35,25 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        // store 方法接受一個Illuminate\Http\Request實力參數
-        // 我們可以使用它來獲得用戶的所有輸入數據
-      
-        $this->validate($request, [
-          'name' => 'required|max:50',
-          'email' => 'required|email|unique:users|max:255',
-          'password' => 'required|confirmed|min:6'
+        $credentials = $this->validate($request, [
+          'email' => 'required|email|max:255',
+          'password' => 'required'
         ]);
 
-        // valiate 接受兩個參數，第一個為用戶的輸入數據，第二個是
-        // 該輸入數據的驗證規則
+        //我们可以看到，在 store 动作中的数据验证与之前的有所不同，
+        //因为在这里只需要保证用户输入的值不为空且格式正确即可。用於验证失败时的错误提示。
+        //当用户填写的信息验证通过之后，我们还需要对用户提供的信息进行用户身份认证，
+        //因为验证通过只能说明用户提交的信息格式是正确的，并不能保证提交的用户信息存在于数据库中。
 
-        $user = User::create([
-          'name' => $request->name,
-          'email' => $request->email,
-          'password' => bcrypt($request->password),
-        ]);
-
-        Auth::login($user);
-        session()->flash('success','歡迎，您將在這裡展開一段新的旅程');
-        // 我們可以使用session()方法來訪問會話實例›
-
-        return redirect()->route('users.show', [$user]);
-        // 注意这里是一个『约定优于配置』的体现，此时 $user 是 User 模型对象的实例。route() 方法会自动获取 Model 的主键，也就是数据表 users 的主键 id，以上代码等同于：
-        // redirect()->route('users.show', [$user->id]);
+        if(Auth::attempt($credentials, $request->has('remember'))){
+          //该用户存在于数据库，且邮箱和密码相符合
+          session()->flash('success', '歡迎回來！');
+          return redirect()->route('users.show', [Auth::user()]);
+          // Auth::user() 方法可獲取當前登入用戶，並將用戶數據傳給路由
+        } else {
+          session()->flash('danger','很抱歉，您的Email與密碼不匹配');
+          return redirect()->back();
+        }
     }
 
     /**
@@ -68,9 +62,9 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user)
+    public function show($id)
     {
-        return view('users.show', compact('user'));
+        //
     }
 
     /**
@@ -105,7 +99,8 @@ class UserController extends Controller
     public function destroy()
     {
         Auth::logout();
-        session()->flash('success','您已成功退出！');
+        session()->flash('success','您已成功登出！');
+
         return redirect('login');
     }
 }

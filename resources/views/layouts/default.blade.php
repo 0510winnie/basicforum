@@ -13,6 +13,8 @@
     </div>
     
     @include('partials._footer')
+
+    <script src="/js/app.js"></script>
     
   </body>
 </html>

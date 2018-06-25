@@ -10461,7 +10461,8 @@ p {
 /* header */
 
 .navbar-inverse {
-  background-color: #3c3e42;
+  background-color: antiquewhite;
+  color: white;
 }
 
 .navbar {
@@ -10483,6 +10484,20 @@ p {
 
 #logo:hover {
   color: #fff;
+}
+
+.nav-link {
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+#logout {
+  cursor: default;
+}
+
+#logout:hover {
+  background-color: transparent;
 }
 
 /* footer */
@@ -10553,7 +10568,7 @@ aside section span {
 
 section.user_info {
   padding-bottom: 10px;
-  padding-top: 20px;
+  padding-top: 38px;
   text-align: center;
 }
 
