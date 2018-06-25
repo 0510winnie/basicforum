@@ -35,7 +35,16 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+          'name' => 'required|max:50',
+          'email' => 'required|email|unique:users|max:255',
+          'password' => 'required|confirmed|min:6'
+        ]);
+
+        // valiate 接受兩個參數，第一個為用戶的輸入數據，第二個是
+        // 該輸入數據的驗證規則
+
+        return;
     }
 
     /**
