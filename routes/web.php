@@ -26,3 +26,5 @@ Route::post('login', 'SessionsController@store')->name('login');
 
 Route::delete('logout', 'SessionsController@destroy')->name('logout');
 // 销毁会话（退出登录）
+
+

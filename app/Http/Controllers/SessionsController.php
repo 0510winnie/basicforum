@@ -7,6 +7,13 @@ use Auth;
 
 class SessionsController extends Controller
 {
+    
+  
+    public function __construct()
+    {
+      $this->middleware('guest',['only'=> ['create']]);
+      //只让未登录用户访问登录页面：
+    }  
     /**
      * Display a listing of the resource.
      *
@@ -48,7 +55,7 @@ class SessionsController extends Controller
         if(Auth::attempt($credentials, $request->has('remember'))){
           //该用户存在于数据库，且邮箱和密码相符合
           session()->flash('success', '歡迎回來！');
-          return redirect()->route('users.show', [Auth::user()]);
+          return redirect()->intended(route('users.show', [Auth::user()]));
           // Auth::user() 方法可獲取當前登入用戶，並將用戶數據傳給路由
         } else {
           session()->flash('danger','很抱歉，您的Email與密碼不匹配');

@@ -7,6 +7,19 @@ use App\User;
 
 class UserController extends Controller
 {
+    
+  
+    public function __construct()
+    {
+      $this->middleware('auth',[
+        'except' => ['show','create','store','index']
+      ]);
+
+      $this->middleware('guest',[
+        'only' => ['create']
+        //只让未登录用户访问注册页面：
+      ]);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +27,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        $users = User::paginate(10);
+        return view('users.index',compact('users'));
     }
 
     /**
@@ -79,9 +93,12 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(User $user)
     {
-        //
+        $this->authorize('updata', $user);
+        return view('users.edit', compact('user'));
+        //利用了 Laravel 的『隐性路由模型绑定』功能，直接读取对应 ID 的用户实例 $user，未找到则报错；
+        //将查找到的用户实例 $user 与编辑视图进行绑定；
     }
 
     /**
@@ -91,9 +108,28 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, User $user)
     {
-        //
+        $this->validate($request,[
+          'name' => 'required|max:50',
+          'password' => 'nullable|comfirmed|min:6'
+        ]);
+
+        $this->authorize('update', $user);
+        //这里 update 是指授权类里的 update 授权方法，$user 对应传参 update 授权方法的第二个参数。
+        //正如上面定义 update 授权方法时候提起的，调用时，默认情况下，我们不需要传递第一个参数，
+        //也就是当前登录用户至该方法内，因为框架会自动加载当前登录用户。
+
+        $data = [];
+        $data['name'] = $request->name;
+        if($request->password){
+          $data['password'] = $request->bcrypt($request->password);
+        }
+
+        $user->update($data);
+        session()->flash('success','個人資料更新成功！');
+
+        return redirect()->route('users.show', $user->id);
     }
 
     /**

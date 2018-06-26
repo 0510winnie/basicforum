@@ -8,7 +8,7 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
-$navbar-color: antiquewhite;
+$navbar-color: pink;
 
 /* universal */
 
@@ -23,7 +23,10 @@ textarea {
 
 .jumbotron {
   text-align: center;
-  background-color: khaki;
+  // background-color: khaki;
+  background-image: url('/assets/images/jumbotron.jpeg');
+  background-size: cover;
+  background-position: center;
 }
 
 /* typography */
@@ -202,7 +205,37 @@ input {
 }
 
 /* session */
-
 .alert {
   margin-top: 19px;
+}
+
+
+/* Users edit */
+.gravatar_edit {
+  margin: 15px auto;
+  text-align: center;
+  .gravatar{
+    float: none;
+    max-width: 100px;
+  }
+}
+
+/* Users index */
+.users {
+  list-style: none;
+  margin: 0;
+  padding-left: 0;
+  li {
+    overflow: auto;
+    padding: 20px 0;
+    border-bottom: 0.9px solid lightgray;
+    margin-bottom: 20px;
+  }
+}
+
+.users_index_title {
+  margin: 50px;
+  color: lightgray;
+  font-size: 36px;
+  margin-top: 150px;
 }
