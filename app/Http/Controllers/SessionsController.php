@@ -53,10 +53,15 @@ class SessionsController extends Controller
         //因为验证通过只能说明用户提交的信息格式是正确的，并不能保证提交的用户信息存在于数据库中。
 
         if(Auth::attempt($credentials, $request->has('remember'))){
-          //该用户存在于数据库，且邮箱和密码相符合
+          if(Auth::user()->activated){//该用户存在于数据库，且邮箱和密码相符合
           session()->flash('success', '歡迎回來！');
           return redirect()->intended(route('users.show', [Auth::user()]));
           // Auth::user() 方法可獲取當前登入用戶，並將用戶數據傳給路由
+          }else{
+            Auth::logout();
+            session()->flash('warning','您的帳號尚未經過驗證，請檢查電子信箱中的註冊郵件來進行驗證。');
+            return redirect('/');
+          }
         } else {
           session()->flash('danger','很抱歉，您的Email與密碼不匹配');
           return redirect()->back();

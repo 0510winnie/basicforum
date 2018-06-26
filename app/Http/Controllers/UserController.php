@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use Mail;
 
 class UserController extends Controller
 {
@@ -12,7 +13,7 @@ class UserController extends Controller
     public function __construct()
     {
       $this->middleware('auth',[
-        'except' => ['show','create','store','index']
+        'except' => ['show','create','store','index', 'confirmEmail']
       ]);
 
       $this->middleware('guest',[
@@ -67,11 +68,13 @@ class UserController extends Controller
           'password' => bcrypt($request->password),
         ]);
 
-        Auth::login($user);
-        session()->flash('success','歡迎，您將在這裡展開一段新的旅程');
+        // Auth::login($user); 要先驗證帳戶
+        $this->sendEmailConfirmationTo($user);
+
+        session()->flash('success','驗證郵件已發送到您的註冊郵件地址，請注意查收。');
         // 我們可以使用session()方法來訪問會話實例›
 
-        return redirect()->route('users.show', [$user]);
+        return redirect('/');
         // 注意这里是一个『约定优于配置』的体现，此时 $user 是 User 模型对象的实例。route() 方法会自动获取 Model 的主键，也就是数据表 users 的主键 id，以上代码等同于：
         // redirect()->route('users.show', [$user->id]);
     }
@@ -144,5 +147,33 @@ class UserController extends Controller
         $user->delete();
         session()->flash('success', '成功删除用户！');
         return back();
+    }
+
+    public function sendEmailConfirmationTo($user)
+    {
+      $view = 'emails.confirm';
+      $data = compact('user');
+      $from ='0510winnie@gmail.com';
+      $name = 'Luna';
+      $to = $user->email;
+      $subject = '感謝註冊 Sample Forum, 請確認您的郵箱。' ;
+
+      Mail::send($view, $data, function($message) use ($from, $name, $to, $subject){
+        $message->from($from, $name)->to($to)->subject($subject);
+      });
+    }
+
+    public function confirmEmail($token)
+    {
+      $user = User::where('activation_token', $token)->firstOrFail();
+
+      $user->activated = true;
+      $user->activation_token = null;
+      $user->save();
+
+      Auth::login($user);
+      session()->flash('success','帳戶驗證成功！');
+      return redirect()->route('users.show',[$user]);
+
     }
 }
