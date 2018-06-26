@@ -30,4 +30,11 @@ class UserPolicy
         //我们并不需要检查 $currentUser 是不是 NULL。未登录用户，框架会自动为其 所有权限 返回 false；
         //调用时，默认情况下，我们不需要传递当前登录用户至该方法内，因为框架会自动加载当前登录用户
     }
+
+    public function destroy(User $currentUser, User $user)
+    {
+      return $currentUser->is_admin && $currentUser->id !== $user->id;
+      //只有當前登入用戶為管理員才能執行刪除動作
+      //刪除的對象不能是自己（即使是管理員也不能自己刪自己）
+    }
 }

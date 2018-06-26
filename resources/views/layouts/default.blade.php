@@ -7,7 +7,7 @@
   <body>
     @include('partials._header')
 
-    <div class="container">
+    <div class="container container_margin">
         @include('shared._messages')
         @yield('content')
     </div>

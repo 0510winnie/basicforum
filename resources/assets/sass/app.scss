@@ -146,6 +146,10 @@ body {
   background-color: white;
 }
 
+.container_margin {
+  margin-top: 70px;
+}
+
 
 /* sidebar */
 
@@ -206,7 +210,7 @@ input {
 
 /* session */
 .alert {
-  margin-top: 19px;
+  margin-top: 100px;
 }
 
 
@@ -238,4 +242,10 @@ input {
   color: lightgray;
   font-size: 36px;
   margin-top: 150px;
+}
+
+.delete-btn {
+  float: right;
+  position: relative;
+  right: 0;
 }
