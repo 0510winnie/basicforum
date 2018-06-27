@@ -16,6 +16,7 @@ Route::get('/','StaticPagesController@home')->name('home');
 Route::get('signup', 'UserController@create')->name('signup');
 Route::get('signup/confirm/{token}','UserController@confirmEmail')->name('confirm_email');
 Route::resource('users','UserController');
+Route::resource('statuses','StatusesController',['only'=>['store','destroy']]);
 
 Route::get('login', 'SessionsController@create')->name('login');
 // 顯上登入頁面

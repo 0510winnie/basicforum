@@ -10423,9 +10423,14 @@ textarea {
 
 .jumbotron {
   text-align: center;
-  background-image: url("/assets/images/jumbotron.jpeg");
+  background-image: url("/assets/images/jumbo.jpeg");
   background-size: cover;
-  background-position: center;
+  letter-spacing: 1px;
+  font-family: -webkit-pictograph;
+}
+
+.jumbotron_h1 {
+  letter-spacing: 0.3px;
 }
 
 /* typography */
@@ -10437,6 +10442,7 @@ h4,
 h5,
 h6 {
   line-height: 1;
+  font-family: -webkit-pictograph;
 }
 
 h1 {
@@ -10463,7 +10469,7 @@ p {
 /* header */
 
 .navbar-inverse {
-  background-color: pink;
+  background-color: burlywood;
   color: white;
 }
 
@@ -10659,5 +10665,61 @@ input {
   float: right;
   position: relative;
   right: 0;
+}
+
+/* statuses */
+
+.statuses {
+  list-style: none;
+  padding: 0;
+  margin-top: 20px;
+}
+
+.statuses li {
+  padding: 10px 0;
+  border-top: 1px solid #e8e8e8;
+  position: relative;
+}
+
+.statuses .user {
+  margin-top: 5em;
+  padding-top: 0;
+}
+
+.statuses .content {
+  display: block;
+  margin-left: 70px;
+  word-break: break-word;
+}
+
+.statuses .content img {
+  display: block;
+  padding: 5px 0;
+}
+
+.statuses .timestamp {
+  color: lightgray;
+  display: block;
+  margin-left: 60px;
+}
+
+.statuses .gravatar {
+  margin-left: 10px;
+  margin-top: 5px;
+}
+
+.statuses form button.status-delete-btn {
+  position: absolute;
+  right: 0;
+  top: 10px;
+}
+
+aside textarea {
+  height: 100px;
+  margin-bottom: 5px;
+}
+
+.status_form {
+  margin-top: 20px;
 }
 

@@ -8,7 +8,7 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
-$navbar-color: pink;
+$navbar-color: burlywood;
 
 /* universal */
 
@@ -23,16 +23,21 @@ textarea {
 
 .jumbotron {
   text-align: center;
-  // background-color: khaki;
-  background-image: url('/assets/images/jumbotron.jpeg');
+  background-image: url('/assets/images/jumbo.jpeg');
   background-size: cover;
-  background-position: center;
+  letter-spacing: 1px;
+  font-family: -webkit-pictograph;
+}
+
+.jumbotron_h1 {
+  letter-spacing: 0.3px;
 }
 
 /* typography */
 
 h1,h2,h3,h4,h5,h6 {
   line-height: 1;
+  font-family: -webkit-pictograph;
 }
 
 h1 {
@@ -248,4 +253,56 @@ input {
   float: right;
   position: relative;
   right: 0;
+}
+
+/* statuses */
+.statuses {
+  list-style: none;
+  padding: 0;
+  margin-top: 20px;
+  li {
+    padding: 10px 0;
+    border-top: 1px solid #e8e8e8;
+    position: relative;
+  }
+  .user {
+    margin-top: 5em;
+    padding-top: 0;
+  }
+  .content {
+    display: block;
+    margin-left: 70px;
+    word-break: break-word;
+    img {
+      display: block;
+      padding: 5px 0;
+    }
+  }
+  .timestamp {
+    color: lightgray;
+    display: block;
+    margin-left: 60px;
+  }
+  .gravatar {
+    margin-left: 10px;
+    margin-top: 5px;
+  }
+  form {
+    button.status-delete-btn {
+      position: absolute;
+      right: 0;
+      top: 10px;
+    }
+  }
+}
+
+aside {
+  textarea {
+    height: 100px;
+    margin-bottom: 5px;
+  }
+}
+
+.status_form {
+  margin-top: 20px;
 }

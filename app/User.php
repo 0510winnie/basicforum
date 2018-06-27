@@ -52,4 +52,10 @@ class User extends Authenticatable
       return $this->hasMany(Status::class);
       //因一個用戶擁有多個動態，因此用複數型態來定義函數名
     }
+
+    public function feed()
+    {
+      return $this->statuses()
+                  ->orderBy('created_at','desc');
+    }
 }
