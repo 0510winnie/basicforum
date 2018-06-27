@@ -3,6 +3,7 @@
 namespace App\Policies;
 
 use App\User;
+use App\Status;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class StatusPolicy
@@ -17,5 +18,10 @@ class StatusPolicy
     public function __construct()
     {
         //
+    }
+
+    public function destroy(User $user, Status $status)
+    {
+      return $user->id === $status->user_id;
     }
 }

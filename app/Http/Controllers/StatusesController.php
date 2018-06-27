@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Status;
+use Auth;
 
 class StatusesController extends Controller
 {
@@ -95,8 +96,12 @@ class StatusesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Status $status)
     {
-        //
+        $this->authorize('destroy', $status);
+        $status->delete();
+        session()->flash('success','動態已被成功刪除！');
+
+        return redirect()->back();
     }
 }
