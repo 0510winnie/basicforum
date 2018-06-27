@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Notifications\ResetPassword;
 
 class User extends Authenticatable
 {
@@ -35,8 +36,20 @@ class User extends Authenticatable
         $user->activation_token = str_random(30);
       });
     }
+
     public function gravatar($size = '100'){
       $hash = md5(strtolower(trim($this->attributes['email'])));
       return "http://www.gravatar.com/avatar/$hash?s=$size";
+    }
+
+    public function sendPasswordResetNotification($token)
+    {
+      $this->notify(new ResetPassword($token));
+    }
+
+    public function statuses()
+    {
+      return $this->hasMany(Status::class);
+      //因一個用戶擁有多個動態，因此用複數型態來定義函數名
     }
 }

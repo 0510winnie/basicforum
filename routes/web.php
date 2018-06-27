@@ -18,14 +18,22 @@ Route::get('signup/confirm/{token}','UserController@confirmEmail')->name('confir
 Route::resource('users','UserController');
 
 Route::get('login', 'SessionsController@create')->name('login');
-// 显示登录页面
+// 顯上登入頁面
 Route::post('login', 'SessionsController@store')->name('login');
-// 创建新会话（登录）
-//我们在前面新增的路由中，有两个路由的命名完全一致，
-//但由于我们在表单中清楚的指明了使用 POST 动作来提交用户的登录信息，
-//因此 Laravel 会自动将该请求映射到会话控制器的 store 动作上。
+// 創建新會話（登入）
+//我們在前面新增的路由中，有兩个路由的命名完全一致，
+//但由於我們在表單中清楚的指明了使用 POST 動作來提交用户的登入信息，
+//因此 Laravel 會自動將該请求映射到會話控制器的 store 動作上。
 
 Route::delete('logout', 'SessionsController@destroy')->name('logout');
-// 销毁会话（退出登录）
+// 銷毀會話（退出登入）
 
+Route::get('password/reset','Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
+//顯示重置密碼的郵件發送頁面
+Route::post('password/email','Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+//郵箱發送重設連結
+Route::get('password/reset/{token}','Auth\ResetPasswordController@showResetForm')->name('password.reset');
+//密碼更新頁面
+Route::post('password/reset','Auth\ResetPasswordController@reset')->name('password.update');
+//執行密碼更新操作
 
