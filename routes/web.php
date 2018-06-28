@@ -38,3 +38,11 @@ Route::get('password/reset/{token}','Auth\ResetPasswordController@showResetForm'
 Route::post('password/reset','Auth\ResetPasswordController@reset')->name('password.update');
 //執行密碼更新操作
 
+Route::get('/users/{user}/followings', 'UserController@followings')->name('users.followings');
+//顯示用戶的關注人列表
+Route::get('/users/{user}/followers','UserController@followers')->name('users.followers');
+//顯示用戶的的粉絲列表
+Route::post('/users/followers/{user}', 'FollowersController@store')->name('followers.store');
+//關注用戶
+Route::delete('/users/followers/{user}', 'FollowersController@destroy')->name('followers.destroy');
+//取消關注
