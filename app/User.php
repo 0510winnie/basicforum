@@ -91,7 +91,7 @@ class User extends Authenticatable
     public function unfollow($user_ids)
     {
         if(!is_array($user_ids)){
-          $user_ids = compact($user_ids);
+          $user_ids = compact('user_ids');
         }
         $this->followings()->detach($user_ids);
         //我們並沒有給syn&detach指定傳遞參數為用戶id，這兩個方法會自動獲取array中的id
